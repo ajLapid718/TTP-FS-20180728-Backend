@@ -1,6 +1,6 @@
 const { User } = require('../database/models');
 
-const seedDatabase = async () => {
+const populateUsersTable = async () => {
   await Promise.all([
     User.create({
       firstName: "Andrew",
@@ -23,4 +23,16 @@ const seedDatabase = async () => {
   ]);
 }
 
-module.exports = seedDatabase;
+const seedDatabase = async () => {
+  try {
+    await populateUsersTable();
+    console.log("Successfully seeded!");
+    process.exit(0);
+  }
+  catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
+}
+
+seedDatabase();
