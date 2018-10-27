@@ -37,6 +37,11 @@ const User = db.define('user', {
     }
   },
 
+  balance: {
+    type: Sequelize.DECIMAL,
+    defaultValue: 5000.00
+  },
+
   name: {
     type: Sequelize.VIRTUAL,
     get: function() {
