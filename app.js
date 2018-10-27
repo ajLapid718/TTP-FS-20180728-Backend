@@ -1,9 +1,10 @@
 // Here, we will sync our database, create our application, and export this module so that we can use it in the bin directory, where we will be able to establish a server to listen and handle requests and responses;
 
 // Require environmental variables if we are in development or testing;
-if (process.env.NODE_ENV !== 'production') {
-  require('./secrets');
-}
+
+// if (process.env.NODE_ENV !== 'production') {
+//   require('./secrets');
+// }
 
 // Module dependencies;
 const express = require('express');
