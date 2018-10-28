@@ -1,11 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require('../database/models');
+const { User, Transaction } = require('../database/models');
 
-router.get('/:email', function(req, res, next) {
-  User.findByEmail(req.params.email)
-    .then(foundUser => res.json(foundUser))
-    .catch(err => next(err));
+router.get('/:id/transactions', async function(req, res, next) {
+  let transactionsOfUser;
+
+  try {
+    transactionsOfUser = await User.findAll({
+      where: {
+        id: req.params.id
+      },
+      include: [
+        {
+          model: Transaction
+        }
+      ]
+    })
+  }
+  catch (err) {
+    next(err);
+  }
+
+  res.status(200).json(transactionsOfUser);
 });
 
 // Export our router, so that it can be imported to construct our apiRouter;
