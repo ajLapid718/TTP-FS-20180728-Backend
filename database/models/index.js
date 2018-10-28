@@ -3,6 +3,10 @@
 const User = require('./user');
 const Transaction = require('./transaction');
 
+// Source ---> Target;
+User.hasMany(Transaction);
+Transaction.belongsTo(User);
+
 module.exports = {
   User,
   Transaction
