@@ -1,4 +1,4 @@
-const { User } = require('../database/models');
+const { User, Transaction } = require('../database/models');
 
 const populateUsersTable = async () => {
   await Promise.all([
@@ -23,9 +23,36 @@ const populateUsersTable = async () => {
   ]);
 }
 
+const populateTransactionsTable = async () => {
+  await Promise.all([
+    Transaction.create({
+      requestType: "BUY",
+      tickerSymbol: "AAPL",
+      amountOfShares: 1,
+      pricePerShare: 250,
+      userId: 1
+    }),
+    Transaction.create({
+      requestType: "BUY",
+      tickerSymbol: "AAPL",
+      amountOfShares: 2,
+      pricePerShare: 250,
+      userId: 2
+    }),
+    Transaction.create({
+      requestType: "BUY",
+      tickerSymbol: "AAPL",
+      amountOfShares: 3,
+      pricePerShare: 250,
+      userId: 3
+    })
+  ]);
+}
+
 const seedDatabase = async () => {
   try {
     await populateUsersTable();
+    await populateTransactionsTable();
     console.log("Successfully seeded!");
     process.exit(0);
   }
