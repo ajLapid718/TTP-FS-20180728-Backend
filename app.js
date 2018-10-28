@@ -13,6 +13,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const helmet = require('helmet');
 const compression = require('compression');
+const passport = require('passport');
 
 // Utilities;
 const createLocalDatabase = require('./utilities/createLocalDatabase');
@@ -20,7 +21,8 @@ const createLocalDatabase = require('./utilities/createLocalDatabase');
 // Our database instance;
 const db = require('./database');
 
-// Our apiRouter;
+// Our authRouter and our apiRouter;
+const authRouter = require('./routes/auth');
 const apiRouter = require('./routes/index');
 
 // A helper function to sync our database;
@@ -54,7 +56,23 @@ const configureApp = () => {
   app.use(compression());
   app.use(cookieParser());
 
-  // Mount our apiRouter;
+  // Initialize passport;
+  app.use(passport.initialize());
+
+  // Serialize and deserialize the user into the session;
+  passport.serializeUser((user, done) => done(null, user.id));
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await db.models.user.findById(id);
+      done(null, user);
+    }
+    catch (err) {
+      done(err);
+    }
+  });
+
+  // Mount our authRouter and our apiRouter;
+  app.use('/auth', authRouter);
   app.use('/api', apiRouter);
 
   // Error handling;

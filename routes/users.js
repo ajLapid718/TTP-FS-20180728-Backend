@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('../database/models');
 
-router.get('/:userEmail', function(req, res, next) {
-  User.findByEmail(req.params.userEmail)
+router.get('/:email', function(req, res, next) {
+  User.findByEmail(req.params.email)
     .then(foundUser => res.json(foundUser))
     .catch(err => next(err));
 });
