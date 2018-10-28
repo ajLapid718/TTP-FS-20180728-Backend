@@ -1,9 +1,10 @@
 // Here, we will sync our database, create our application, and export this module so that we can use it in the bin directory, where we will be able to establish a server to listen and handle requests and responses;
 
 // Require environmental variables if we are in development or testing;
-if (process.env.NODE_ENV !== 'production') {
-  require('./secrets');
-}
+
+// if (process.env.NODE_ENV !== 'production') {
+//   require('./secrets');
+// }
 
 // Module dependencies;
 const express = require('express');
@@ -12,15 +13,16 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const helmet = require('helmet');
 const compression = require('compression');
+const passport = require('passport');
 
 // Utilities;
 const createLocalDatabase = require('./utilities/createLocalDatabase');
-const seedDatabase = require('./utilities/seedDatabase');
 
 // Our database instance;
 const db = require('./database');
 
-// Our apiRouter;
+// Our authRouter and our apiRouter;
+const authRouter = require('./routes/auth');
 const apiRouter = require('./routes/index');
 
 // A helper function to sync our database;
@@ -31,11 +33,9 @@ const syncDatabase = () => {
   else {
     console.log('As a reminder, the forced synchronization option is on');
     db.sync({ force: true })
-      .then(() => seedDatabase())
       .catch(err => {
         if (err.name === 'SequelizeConnectionError') {
           createLocalDatabase();
-          seedDatabase();
         }
         else {
           console.log(err);
@@ -56,7 +56,23 @@ const configureApp = () => {
   app.use(compression());
   app.use(cookieParser());
 
-  // Mount our apiRouter;
+  // Initialize passport;
+  app.use(passport.initialize());
+
+  // Serialize and deserialize the user into the session;
+  passport.serializeUser((user, done) => done(null, user.id));
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await db.models.user.findById(id);
+      done(null, user);
+    }
+    catch (err) {
+      done(err);
+    }
+  });
+
+  // Mount our authRouter and our apiRouter;
+  app.use('/auth', authRouter);
   app.use('/api', apiRouter);
 
   // Error handling;
