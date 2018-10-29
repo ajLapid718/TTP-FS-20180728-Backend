@@ -42,7 +42,9 @@ router.get('/:id/portfolio', async function(req, res, next) {
 
   const stocksWithCurrentPrices = await Promise.all(stocksWithPendingCurrentPrices);
 
-  res.status(200).json(stocksWithCurrentPrices);
+  portfolioOfUser.stocks = stocksWithCurrentPrices;
+
+  res.status(200).json(portfolioOfUser);
 });
 
 
