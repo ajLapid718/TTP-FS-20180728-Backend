@@ -1,4 +1,4 @@
-const { User, Transaction } = require('../database/models');
+const { User, Transaction, Portfolio } = require('../database/models');
 
 const populateUsersTable = async () => {
   await Promise.all([
@@ -49,10 +49,46 @@ const populateTransactionsTable = async () => {
   ]);
 }
 
+const populatePortfoliosTable = async () => {
+  const exampleStockOne = {
+    tickerSymbol: "AAPL",
+    amountOfShares: 3,
+    pricePerShare: 250
+  }
+
+  const exampleStockTwo = {
+    tickerSymbol: "AAPL",
+    amountOfShares: 4,
+    pricePerShare: 250
+  }
+
+  const exampleStockThree = {
+    tickerSymbol: "AAPL",
+    amountOfShares: 5,
+    pricePerShare: 250
+  }
+
+  await Promise.all([
+    Portfolio.create({
+      stocks: [exampleStockOne, exampleStockTwo, exampleStockThree],
+      userId: 1
+    }),
+    Portfolio.create({
+      stocks: [exampleStockTwo],
+      userId: 2
+    }),
+    Portfolio.create({
+      stocks: [exampleStockThree],
+      userId: 3
+    })
+  ]);
+}
+
 const seedDatabase = async () => {
   try {
     await populateUsersTable();
     await populateTransactionsTable();
+    await populatePortfoliosTable();
     console.log("Successfully seeded!");
     process.exit(0);
   }
