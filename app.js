@@ -21,6 +21,12 @@ const createLocalDatabase = require('./utilities/createLocalDatabase');
 // Our database instance;
 const db = require('./database');
 
+// Handle the creation and storage of sessions;
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const sessionStore = new SequelizeStore({ db });
+
+
 // Our authRouter and our apiRouter;
 const authRouter = require('./routes/auth');
 const apiRouter = require('./routes/index');
@@ -56,9 +62,6 @@ const configureApp = () => {
   app.use(compression());
   app.use(cookieParser());
 
-  // Initialize passport;
-  app.use(passport.initialize());
-
   // Serialize and deserialize the user into the session;
   passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser(async (id, done) => {
@@ -70,6 +73,20 @@ const configureApp = () => {
       done(err);
     }
   });
+
+  // Handle sessions;
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || 'mahalkita',
+      store: sessionStore,
+      resave: false,
+      saveUninitialized: false
+    })
+  );
+
+  // Initialize passport;
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   // Mount our authRouter and our apiRouter;
   app.use('/auth', authRouter);
