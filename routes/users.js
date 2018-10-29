@@ -1,20 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { User, Transaction } = require('../database/models');
+const { Transaction } = require('../database/models');
 
 router.get('/:id/transactions', async function(req, res, next) {
   let transactionsOfUser;
 
   try {
-    transactionsOfUser = await User.findAll({
+    transactionsOfUser = await Transaction.findAll({
       where: {
-        id: req.params.id
-      },
-      include: [
-        {
-          model: Transaction
-        }
-      ]
+        userId: req.params.id
+      }
     })
   }
   catch (err) {
