@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Transaction, Portfolio } = require('../database/models');
+const getTickerPrice = require('../utilities/getTickerPrice');
 
 router.get('/:id/transactions', async function(req, res, next) {
   let transactionsOfUser;
@@ -33,7 +34,15 @@ router.get('/:id/portfolio', async function(req, res, next) {
     next(err);
   }
 
-  res.status(200).json(portfolioOfUser);
+  const stocksWithPendingCurrentPrices = portfolioOfUser.stocks.map(async stock => {
+    const pendingCurrentPrice = await getTickerPrice(stock.tickerSymbol)
+    const currentPrice = pendingCurrentPrice.data;
+    return { ...stock, currentPrice }
+  });
+
+  const stocksWithCurrentPrices = await Promise.all(stocksWithPendingCurrentPrices);
+
+  res.status(200).json(stocksWithCurrentPrices);
 });
 
 
