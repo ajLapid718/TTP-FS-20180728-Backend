@@ -3,6 +3,7 @@ const router = express.Router();
 const { Portfolio } = require('../database/models');
 
 router.post('/', async (req, res, next) => {
+  // TODO: Handle logic to append new stocks to the portfolio;
   const currentPortfolio = await Portfolio.build(req.body);
   currentPortfolio.setUser(req.user);
   currentPortfolio.save()
