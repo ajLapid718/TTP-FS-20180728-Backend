@@ -19,7 +19,7 @@ const Transaction = db.define('transaction', {
   },
 
   pricePerShare: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.DECIMAL,
     allowNull: false
   }
 
