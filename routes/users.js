@@ -23,7 +23,7 @@ router.get('/:id/portfolio', async function(req, res, next) {
   let portfolioOfUser;
 
   try {
-    portfolioOfUser = await Portfolio.findAll({
+    portfolioOfUser = await Portfolio.findOne({
       where: {
         userId: req.params.id
       }
