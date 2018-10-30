@@ -4,12 +4,10 @@ const router = express.Router();
 // Subrouters;
 const usersRouter = require('./users');
 const transactionsRouter = require('./transactions');
-const portfoliosRouter = require('./portfolios');
 
 // Mount our subrouters to assemble our apiRouter;
 router.use('/users', usersRouter);
 router.use('/transactions', transactionsRouter);
-router.use('/portfolios', portfoliosRouter);
 
 // Error handling middleware;
 router.use((req, res, next) => {
