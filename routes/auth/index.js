@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require('../../database/models');
+const { User, Portfolio } = require('../../database/models');
 
 router.post('/signup', async (req, res, next) => {
   try {
     const user = await User.create(req.body);
+    const portfolio = await Portfolio.build();
+    portfolio.setUser(user);
+    await portfolio.save();
     req.login(user, err => (err ? next(err) : res.json(user)));
   }
   catch (err) {
