@@ -5,8 +5,9 @@ const { User, Portfolio } = require('../../database/models');
 router.post('/signup', async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    const portfolio = await Portfolio.build();
-    portfolio.setUser(user);
+    const defaultStock = {tickerSymbol: "AAPL", amountOfShares: 1, pricePerShare: 250};
+    const portfolio = await Portfolio.build(defaultStock);
+    await portfolio.setUser(user);
     await portfolio.save();
     req.login(user, err => (err ? next(err) : res.json(user)));
   }
