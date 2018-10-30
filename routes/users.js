@@ -41,12 +41,33 @@ router.get('/:id/portfolio', async function(req, res, next) {
   });
 
   const stocksWithCurrentPrices = await Promise.all(stocksWithPendingCurrentPrices);
-
   portfolioOfUser.stocks = stocksWithCurrentPrices;
-
   res.status(200).json(portfolioOfUser);
 });
 
+router.put('/:id/portfolio', async (req, res, next) => {
+  let portfolioOfUser;
+
+  try {
+    portfolioOfUser = await Portfolio.findOne({
+      where: {
+        userId: req.params.id
+      }
+    })
+  }
+  catch (err) {
+    next(err);
+  }
+
+  try {
+    portfolioOfUser.update(req.body)
+  }
+  catch (err) {
+    next(err)
+  }
+
+  res.status(200).send('Updated!');
+});
 
 // Export our router, so that it can be imported to construct our apiRouter;
 module.exports = router;

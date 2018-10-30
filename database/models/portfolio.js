@@ -4,7 +4,8 @@ const db = require('../db');
 const Portfolio = db.define('portfolio', {
 
   stocks: {
-    type: Sequelize.ARRAY(Sequelize.JSON)
+    type: Sequelize.ARRAY(Sequelize.JSON),
+    allowNull: false
   }
 
 });
