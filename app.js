@@ -64,6 +64,11 @@ const configureApp = () => {
   app.use(cookieParser());
 
   app.use(cors({ credentials: true, origin: "https://workforce-stock-app.herokuapp.com"}));
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://workforce-stock-app.herokuapp.com");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
   // Serialize and deserialize the user into the session;
   passport.serializeUser((user, done) => done(null, user.id));
