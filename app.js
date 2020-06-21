@@ -64,11 +64,11 @@ const configureApp = () => {
   app.use(cookieParser());
 
   app.use(cors({ credentials: true, origin: ["https://workforce-stock-app.herokuapp.com", "https://serene-varahamihira-fbc247.netlify.app/#/"]}));
-  app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+  // app.use(function(req, res, next) {
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  //   next();
+  // });
 
   // Serialize and deserialize the user into the session;
   passport.serializeUser((user, done) => done(null, user.id));
