@@ -63,7 +63,7 @@ const configureApp = () => {
   app.use(compression());
   app.use(cookieParser());
 
-  app.use(cors({ credentials: true, origin: ["https://workforce-stock-app.herokuapp.com", "https://serene-varahamihira-fbc247.netlify.app/#/"]}));
+  app.use(cors({ credentials: true, origin: "https://serene-varahamihira-fbc247.netlify.app/#/"}));
   // app.use(function(req, res, next) {
   //   res.header("Access-Control-Allow-Origin", "*");
   //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
