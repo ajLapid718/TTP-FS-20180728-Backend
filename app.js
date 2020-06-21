@@ -14,6 +14,7 @@ const logger = require('morgan');
 const helmet = require('helmet');
 const compression = require('compression');
 const passport = require('passport');
+const cors = require("cors");
 
 // Utilities;
 const createLocalDatabase = require('./utilities/createLocalDatabase');
@@ -61,6 +62,8 @@ const configureApp = () => {
   app.use(express.urlencoded({ extended: false }));
   app.use(compression());
   app.use(cookieParser());
+
+  app.use(cors({ credentials: true, origin: "https://workforce-stock-app.herokuapp.com"}));
 
   // Serialize and deserialize the user into the session;
   passport.serializeUser((user, done) => done(null, user.id));

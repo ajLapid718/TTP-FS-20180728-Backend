@@ -42,6 +42,7 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/me', (req, res) => {
+  console.log(req.user);
   res.json(req.user);
 });
 
