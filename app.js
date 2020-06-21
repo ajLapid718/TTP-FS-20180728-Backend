@@ -95,6 +95,10 @@ const configureApp = () => {
   app.use('/auth', authRouter);
   app.use('/api', apiRouter);
 
+  app.get("/", (req, res, next) => {
+    res.status(200).json("Server Running!");
+  })
+
   // Error handling;
   app.use((req, res, next) => {
     if (path.extname(req.path).length) {
