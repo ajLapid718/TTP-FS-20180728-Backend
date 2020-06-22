@@ -91,7 +91,7 @@ const configureApp = () => {
       saveUninitialized: false,
       cookie: {
         secure: true,
-        sameSite: "strict",
+        sameSite: "none"
       //   httpOnly: true
       }
     })
