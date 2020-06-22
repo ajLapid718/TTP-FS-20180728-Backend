@@ -89,9 +89,6 @@ const configureApp = () => {
       store: sessionStore,
       resave: false,
       saveUninitialized: false,
-      cookie: {
-        secure: true
-      }
     })
   );
 
