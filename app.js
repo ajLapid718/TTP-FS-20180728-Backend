@@ -90,7 +90,9 @@ const configureApp = () => {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: true
+        secure: true,
+        sameSite: "strict",
+        httpOnly: true
       }
     })
   );
