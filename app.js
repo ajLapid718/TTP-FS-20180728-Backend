@@ -88,7 +88,10 @@ const configureApp = () => {
       secret: process.env.SESSION_SECRET || 'mahalkita',
       store: sessionStore,
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: false,
+      cookie: {
+        sameSite: "strict";
+      }
     })
   );
 
