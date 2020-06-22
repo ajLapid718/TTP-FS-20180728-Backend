@@ -89,11 +89,11 @@ const configureApp = () => {
       store: sessionStore,
       resave: false,
       saveUninitialized: false,
-      cookie: {
-        secure: true,
-        sameSite: "strict",
-        httpOnly: true
-      }
+      // cookie: {
+      //   secure: true,
+      //   sameSite: "strict",
+      //   httpOnly: true
+      // }
     })
   );
 
