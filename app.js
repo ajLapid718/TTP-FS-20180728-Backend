@@ -91,8 +91,8 @@ const configureApp = () => {
       saveUninitialized: false,
       cookie: {
         secure: true,
-        sameSite: "None"
-      //   httpOnly: true
+        sameSite: "strict",
+        domain: "https://serene-varahamihira-fbc247.netlify.app"
       }
     })
   );
