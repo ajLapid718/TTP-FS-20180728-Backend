@@ -90,7 +90,7 @@ const configureApp = () => {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        domain: "https://serene-varahamihira-fbc247.netlify.app"
+        secure: true
       }
     })
   );
