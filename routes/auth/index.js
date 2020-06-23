@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { User, Portfolio } = require('../../database/models');
 
+const cache = {};
+
 router.post('/signup', async (req, res, next) => {
   try {
     const user = await User.create(req.body);
@@ -42,7 +44,10 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/me', (req, res) => {
-  console.log(req.user);
+  console.log(req.user, "user");
+  console.log(cache, "cache");
+  cache[req.user.id] = cache[req.user.id] + 1 || 1;
+  console.log(cache, "cache after");
   res.json(req.user);
 });
 
